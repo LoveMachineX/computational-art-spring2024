@@ -20,7 +20,7 @@ function draw() {
       // Calculate position
       let posX = x * cell + cell / 2;
       let posY = y * cell + cell / 2;
-      fill(255,dynamicSize);
+      fill(255,dynamicSize, 100,100);
       
       rect(posX, posY, dynamicSize, dynamicSize);
     }
