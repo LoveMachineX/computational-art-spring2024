@@ -47,8 +47,6 @@ class Boid {
     return steering;
   }
 
-  // Add cohesion and separation methods here following a similar pattern to align
-
   update() {
     this.position.add(this.velocity);
     this.velocity.add(this.acceleration);
@@ -65,7 +63,6 @@ class Boid {
   flock(boids) {
     let alignment = this.align(boids);
     this.acceleration.add(alignment);
-    // Add cohesion and separation forces to acceleration
   }
 }
 
@@ -79,29 +76,36 @@ class Predator {
     this.maxSpeed = 6;
     this.maxForce = 0.5;
     this.lastMealTime = millis();
+
+    this.eatenRecently = false; 
+    this.seekingMate = false;
   }
 
   update() {
-    this.position.add(this.velocity);
     this.velocity.add(this.acceleration);
+    this.velocity.limit(this.maxSpeed);
+    this.position.add(this.velocity);
     this.acceleration.mult(0);
   }
 
+  applyForce(force) {
+    this.acceleration.add(force);
+  }
+
   show() {
-    let theta = this.velocity.heading() + radians(90); // Calculate the orientation of the predator
-    fill(255, 0, 0); // Fill color for the predator
-    stroke(255, 0, 0); // Border color for the predator
+    let theta = this.velocity.heading() + radians(90); 
+    fill(255, 0, 0); 
+    stroke(255, 0, 0); 
     strokeWeight(1);
-    push(); // Start a new drawing state
-    translate(this.position.x, this.position.y); // Move to the predator's position
-    rotate(theta); // Rotate to the predator's heading
+    push(); 
+    translate(this.position.x, this.position.y); 
+    rotate(theta); 
     beginShape();
-    // Draw an isosceles triangle with a longer hypotenuse and a shorter base
-    vertex(0, -10); // Point of the triangle
-    vertex(-5, 10); // Base left vertex
-    vertex(5, 10); // Base right vertex
-    endShape(CLOSE); // Complete the shape
-    pop(); // Restore original state
+    vertex(0, -10); 
+    vertex(-5, 10); 
+    vertex(5, 10); 
+    endShape(CLOSE); 
+    pop(); 
   }
 
   seek(target) {
@@ -118,10 +122,32 @@ class Predator {
       let d = this.position.dist(boid.position);
       if (d < 10) { // If close enough to eat
         flock.boids.splice(i, 1); // Remove the boid from the flock
-        return true; // Indicate that the predator has eaten
+        this.eatenRecently = true;
+        this.seekingMate = true; // After eating, the predator seeks a mate
+        return true;
       }
     }
     return false; // No boid was eaten
+  }
+
+  seekMate(predators) {
+    if (this.seekingMate) {
+      let closest = null;
+      let closestD = Infinity;
+      for (let predator of predators) {
+        if (predator !== this && predator.eatenRecently) {
+          let d = this.position.dist(predator.position);
+          if (d < closestD) {
+            closest = predator;
+            closestD = d;
+          }
+        }
+      }
+      if (closest) {
+        return this.seek(closest);
+      }
+    }
+    return createVector(0, 0); 
   }
 
   hunt(flock) {
@@ -144,6 +170,7 @@ class Predator {
       this.position.y = height;
     }
   }
+
 }
 
 // Define the Flock class
@@ -182,6 +209,36 @@ function draw() {
   background(51);
   flock.run();
 
+  for (let i = 0; i < predators.length; i++) {
+    let predator = predators[i];
+    predator.update();
+    predator.edges();
+
+    if (predator.eatenRecently) {
+      let force = predator.seekMate(predators); // Seek a mate
+      predator.applyForce(force);
+    } else {
+      predator.hunt(flock); // Hunt if not seeking a mate
+    }
+
+    let eaten = predator.eat(flock);
+    if (eaten) {
+      setTimeout(() => predator.eatenRecently = false, 5000); // Resets eating behavior after 5 seconds
+    }
+
+    // Check for predator mating
+    for (let j = i + 1; j < predators.length; j++) {
+      let otherPredator = predators[j];
+      if (predator.position.dist(otherPredator.position) < 10 && predator.eatenRecently && otherPredator.eatenRecently) {
+        predators.push(new Predator((predator.position.x + otherPredator.position.x) / 2, (predator.position.y + otherPredator.position.y) / 2)); // Spawn a new predator at their meeting point
+        predator.eatenRecently = false; // Reset their states
+        otherPredator.eatenRecently = false;
+      }
+    }
+
+    predator.show();
+  }
+
   for (let i = predators.length - 1; i >= 0; i--) {
     let predator = predators[i];
     predator.hunt(flock); // Predator hunts a boid
@@ -193,18 +250,16 @@ function draw() {
     let eaten = predator.eat(flock); // Check if the predator eats a boid
     if (eaten) {
       predator.lastMealTime = millis(); // Reset the timer on a successful eat
-      // Reproduce a new predator at the position of the eaten boid
-      predators.push(new Predator(predator.position.x, predator.position.y));
     }
     else if (millis() - predator.lastMealTime > 15000) { // 15 seconds without eating
-      // Predator "dies" and is removed
+      // Predator "dies" 
       predators.splice(i, 1);
 
       // Replace the predator with three new boids at its position
       for (let n = 0; n < 3; n++) {
         flock.addBoid(new Boid(predator.position.x, predator.position.y));
       }
-      continue; // Move to the next predator (if any)
+      continue; 
     }
     predator.update();
     predator.edges();
