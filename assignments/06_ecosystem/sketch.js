@@ -239,14 +239,10 @@ function draw() {
     predator.show();
   }
 
-  for (let i = predators.length - 1; i >= 0; i--) {
-    let predator = predators[i];
-    predator.hunt(flock); // Predator hunts a boid
-    let eaten = predator.eat(flock);
-  }
 
   for (let i = predators.length - 1; i >= 0; i--) {
     let predator = predators[i];
+    predator.hunt(flock);
     let eaten = predator.eat(flock); // Check if the predator eats a boid
     if (eaten) {
       predator.lastMealTime = millis(); // Reset the timer on a successful eat
