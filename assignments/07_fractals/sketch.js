@@ -30,7 +30,8 @@ function drawCircle(x, y, radius, depth) {
     
     drawCircle(x + radius / 2, y, radius / 2, newDepth);
     drawCircle(x - radius / 2, y, radius / 2, newDepth);
-    
+    drawCircle(x, y - radius / 2, radius / 2, newDepth);
+    drawCircle(x, y + radius / 2, radius / 2, newDepth);
     pop();
   }
 }
