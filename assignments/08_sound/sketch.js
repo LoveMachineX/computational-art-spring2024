@@ -1,18 +1,22 @@
-let birdsound;
+let song;
+
+function preload() {
+  soundFormats('ogg', 'mp3');
+  song = loadSound("https://lovemachinex.github.io/computional-art-spring2024/assignments/08_sound/sample");
+}
 
 function setup() {
-  birdsound = loadSound('https://lovemachinex.github.io/computional-art-spring2024/assignments/08_sound/sample');
-  createCanvas(720, 200);
-  background(255, 0, 0);
+  createCanvas(710, 200);
+  song.play();
+  background(0, 255, 0);
 }
 
 function mousePressed() {
-  if (birdsound.isPlaying()) {
-    // .isPlaying() returns a boolean
-    birdsound.stop();
+  if (song.isPlaying()) {
+    song.pause();
     background(255, 0, 0);
   } else {
-    song.play();
+    song.play(); 
     background(0, 255, 0);
   }
 }
