@@ -1,7 +1,7 @@
 let birdsound;
 
 function setup() {
-  birdsound = loadSound("https://LoveMachineX.github.io/computational-art-spring2024/assignments/08_sound/sample/birdsound.wav");
+  birdsound = loadSound('sample/birdsound.wav');
   createCanvas(720, 200);
   background(255, 0, 0);
 }
