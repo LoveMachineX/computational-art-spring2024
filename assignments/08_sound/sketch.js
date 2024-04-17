@@ -11,11 +11,9 @@ function setup() {
   synth = new p5.PolySynth();
   reverb = new p5.Reverb();
 
-  // Connect reverb to synth with 3 seconds decay at a reverb level of 2%
   reverb.process(synth, 3, 2);
-  scale = scales['natural minor'].map(x => midiToFreq(60 + x)); // C natural minor
+  scale = scales['natural minor'].map(x => midiToFreq(60 + x)); 
 
-  // Create circles with initial random positions and velocities
   for (let i = 0; i < 5; i++) {
     circles.push({
       x: random(width),
@@ -30,21 +28,17 @@ function setup() {
 function draw() {
   background(30);
 
-  // Draw and move circles
   for (let circle of circles) {
     fill(255, 100, 100, 150);
     noStroke();
     ellipse(circle.x, circle.y, circle.size * 2);
 
-    // Update position
     circle.x += circle.vx;
     circle.y += circle.vy;
 
-    // Reflect off edges
     if (circle.x < 0 || circle.x > width) circle.vx *= -1;
     if (circle.y < 0 || circle.y > height) circle.vy *= -1;
 
-    // Check for collisions
     for (let other of circles) {
       if (other !== circle && dist(circle.x, circle.y, other.x, other.y) < circle.size + other.size) {
         handleCollision(circle, other);
