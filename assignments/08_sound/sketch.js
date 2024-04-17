@@ -49,16 +49,15 @@ function draw() {
 
 function mouseClicked() {
   let note = random(scale);
-  synth.play(note, 0.5, 0, 0.2); // Play a random note from the scale when clicked
-  drum.play(); // Play the drum sample on click
+  synth.play(note, 0.5, 0, 0.2); 
+  drum.play(); 
 }
 
 function handleCollision(circle1, circle2) {
-  // Play a random scale note when circles collide
   if (!circle1.colliding && !circle2.colliding) {
     let note = random(scale);
     synth.play(note, 0.5, 0, 0.5);
-    circle1.colliding = circle2.colliding = true; // Prevent continuous playing while touching
-    setTimeout(() => { circle1.colliding = circle2.colliding = false; }, 500); // Reset collision state
+    circle1.colliding = circle2.colliding = true; 
+    setTimeout(() => { circle1.colliding = circle2.colliding = false; }, 500); 
   }
 }
