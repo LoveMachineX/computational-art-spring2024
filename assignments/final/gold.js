@@ -4,9 +4,9 @@ class Gold {
         this.height = height;
         this.x = 0;
         this.y = 0;
-
     }
 
+    // Method to place the Gold square randomly on the canvas where there are no obstacles
     placeRandomly(obstacles, canvasWidth, canvasHeight) {
         let placed = false;
         while (!placed) {
@@ -19,6 +19,7 @@ class Gold {
         }
     }
 
+    // Method to check collision with any given obstacles
     collides(obstacles) {
         for (let obstacle of obstacles) {
             if (this.x < obstacle.x + obstacle.width && this.x + this.width > obstacle.x &&
@@ -29,13 +30,10 @@ class Gold {
         return false;
     }
 
+    // Method to draw the square on the canvas
     draw() {
-        if (this.visible){
-            fill(255, 215, 0); 
-            noStroke();
-            rect(this.x, this.y, this.width, this.height);
-        }
+        fill(255, 215, 0); // Gold color
+        noStroke();
+        rect(this.x, this.y, this.width, this.height);
     }
-
-
 }

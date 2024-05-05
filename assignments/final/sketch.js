@@ -1,8 +1,8 @@
 let img;
 let imgWidth = 60;
 let imgHeight = 48;
-let freeze = false;  // This variable will control the freezing of the frame.
-let staticImage;  // This will store the static image when freeze is toggled
+let freeze = false;  
+let staticImage;  
 let player = null;
 let squareGenerated = false;
 let gold;
@@ -49,8 +49,10 @@ function draw() {
 }
 
 function preload() {
-  victory = loadSound('https://lovemachinex.github.io/computational-art-spring2024/assignments/08_sound/samples/drum.wav');
+  jump = loadSound('https://lovemachinex.github.io/computational-art-spring2024/assignments/final/sound/drum.wav');
+  victory = loadSound('https://lovemachinex.github.io/computational-art-spring2024/assignments/final/sound/victory.wav')
 }
+
 
 function checkCollision() {
   return (player.x < gold.x + gold.width && player.x + player.width > gold.x &&
@@ -58,7 +60,8 @@ function checkCollision() {
 }
 
 function playVictoryMusic() {
-  victory.play();
+  let sound = document.getElementById('victorySound');
+  sound.play();
   setTimeout(function() {
     window.location.reload();  
   }, 5000);
@@ -94,14 +97,4 @@ function toggleFreeze() {
       staticImage = get();  // Capture the current canvas as the static image
       gold.placeRandomly(obstacles, width, height); // Place gold square randomly on freeze
   }
-}
-
-function mouseClicked() {
-    if (!freeze && !squareGenerated) {
-        if (player === null) { // Ensure no player exists before creating one
-            player = new Player(mouseX, mouseY);
-            squareGenerated = true;
-        }
-    }
-    return false;
 }

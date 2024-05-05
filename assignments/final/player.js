@@ -20,7 +20,7 @@ class Player {
 
     update(obstacles) {
         if (this.movingUp && !this.collided) {
-            this.y-= 10;
+            this.jump();
         }
         if (this.movingDown && !this.collision(this.x, this.y + 1, obstacles)) {
             this.y += 5;
@@ -35,6 +35,19 @@ class Player {
         this.applyGravity(obstacles);
     }
 
+    jump() {
+        if (!this.collided) {
+            this.speedY = -10; // Adjust jump strength
+            this.playJumpSound();
+        }
+    }
+
+    
+
+    playJumpSound() {
+        jumpsound = loadSound('https://lovemachinex.github.io/computational-art-spring2024/assignments/final/sound/drum.wav');
+        jumpsound.play();
+    }
 
     applyGravity(obstacles) {
         this.y += this.speedY;
