@@ -37,17 +37,15 @@ class Player {
 
     jump() {
         if (!this.collided) {
-            this.speedY = -10; // Adjust jump strength
-            this.playJumpSound();
+            this.speedY = -10;  
+            if (jumpSound.isLoaded()) {
+                jumpSound.play();  
+            }
         }
     }
 
     
 
-    playJumpSound() {
-        jumpsound = loadSound('https://lovemachinex.github.io/computational-art-spring2024/assignments/final/sound/drum.wav');
-        jumpsound.play();
-    }
 
     applyGravity(obstacles) {
         this.y += this.speedY;

@@ -49,7 +49,6 @@ function draw() {
 }
 
 function preload() {
-  jump = loadSound('https://lovemachinex.github.io/computational-art-spring2024/assignments/final/sound/drum.wav');
   victory = loadSound('https://lovemachinex.github.io/computational-art-spring2024/assignments/final/sound/victory.wav')
 }
 
@@ -60,8 +59,7 @@ function checkCollision() {
 }
 
 function playVictoryMusic() {
-  let sound = document.getElementById('victorySound');
-  sound.play();
+  victory.play();
   setTimeout(function() {
     window.location.reload();  
   }, 5000);
