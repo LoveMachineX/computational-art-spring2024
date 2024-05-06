@@ -7,7 +7,7 @@ let player = null;
 let squareGenerated = false;
 let gold;
 let jumpSound;
-// let victory;
+let victory;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
