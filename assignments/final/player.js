@@ -26,8 +26,8 @@ class Player {
         this.applyWind();
         this.x += this.speedX;
 
-        if (this.movingUp && !this.collided) {
-            this.speedY = -10;
+        if (this.movingUp && !this.collided && this.jumpCount < 2) {
+            this.jump();
         }
         if (this.movingDown && !this.collision(this.x, this.y + 1, obstacles)) {
             this.y += 5;
@@ -38,18 +38,23 @@ class Player {
         if (this.movingRight && !this.collision(this.x + 1, this.y, obstacles)) {
             this.x += 5;
         }
-
+        this.manageJumpCooldown();
         this.applyGravity(obstacles);
     }
 
-    // jump() {
-    //     if (!this.collided) {
-    //         this.speedY = -10;  
-            // if (jumpSound.isLoaded()) {
-            //     jumpSound.play();  
-            // }
-    //     }
-    // }
+    jump() {
+        this.speedY = -10; 
+        this.jumpCount++;
+        this.jumpCooldown = 180;  
+    }
+
+    manageJumpCooldown() {
+        if (this.jumpCooldown > 0) {
+            this.jumpCooldown--;
+        } else {
+            this.jumpCount = 0;  
+        }
+    }
 
     applyWind() {
         if (this.windChangeTimer <= 0) {
@@ -68,15 +73,11 @@ class Player {
         this.y += this.speedY;
         this.speedY += this.gravity;
         if (this.collision(this.x, this.y, obstacles)) {
-            while (this.collision(this.x, this.y, obstacles)) {
-                this.y -= Math.sign(this.speedY); // Adjust to not overlap
-            }
-            this.speedY = 0;
             this.collided = true;
+            this.speedY = 0;
         } else {
             this.collided = false;
         }
-        this.speedY = Math.min(this.speedY, this.maxFallSpeed);
     }
 
     collision(x, y, obstacles) {
