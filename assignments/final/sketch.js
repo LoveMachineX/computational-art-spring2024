@@ -6,7 +6,7 @@ let staticImage;
 let player = null;
 let squareGenerated = false;
 let gold;
-// let jumpSound;
+let jumpSound;
 // let victory;
 
 function setup() {
