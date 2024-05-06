@@ -20,7 +20,7 @@ class Player {
 
     update(obstacles) {
         if (this.movingUp && !this.collided) {
-            this.speedY = -10;
+            this.y -= 10;
         }
         if (this.movingDown && !this.collision(this.x, this.y + 1, obstacles)) {
             this.y += 5;
