@@ -86,8 +86,8 @@ function processVideo() {
         obstacles.push({ x: x * 30, y: y * 30 });
       }
 
-      let xPos = x * 30; // Position squares based on grid without oscillation
-      let yPos = y * 30; // Position squares based on grid without oscillation
+      let xPos = x * 30; 
+      let yPos = y * 30; 
       square(xPos, yPos, 30);
     }
   }
