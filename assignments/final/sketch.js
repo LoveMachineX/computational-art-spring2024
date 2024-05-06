@@ -39,9 +39,9 @@ function draw() {
     img.loadPixels();
     obstacles = [];
     processVideo();
+    gold.draw();
   } else {
     image(staticImage, 0, 0, width, height);
-    gold.draw();
   }
   player.update(obstacles);
   player.draw();
