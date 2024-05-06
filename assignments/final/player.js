@@ -25,7 +25,6 @@ class Player {
 
     update(obstacles) {
         this.applyWind();
-        this.x += this.speedX;
         if (this.collision(this.x, this.y, obstacles)) {
             this.x -= this.speedX;  // Revert the movement if there's a collision
             this.speedX = 0;  // Optionally stop the wind force on collision
@@ -69,7 +68,15 @@ class Player {
             this.windForce = min(this.windForce + 0.01, 2);  // Gradually increase force to a max
             this.windChangeTimer--;
         }
+        let oldX = this.x;
         this.speedX = this.windForce * this.windDirection;
+        this.x += this.speedX;  // Apply wind force to horizontal movement
+    
+        // Check for collisions after applying wind
+        if (this.collision(this.x, this.y)) {
+            this.x = oldX;  // Revert the movement if there's a collision
+            this.speedX = 0;  // Optionally stop the wind force on collision
+        }
     }
 
 
