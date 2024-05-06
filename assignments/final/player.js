@@ -3,7 +3,7 @@ class Player {
         this.x = x;
         this.y = y;
         this.speedY = 0; // Vertical speed
-        this.speedX = 0;
+        this.speedX = 0; // Wind effect
         this.collided = false; // Collision state
         this.windForce = 0;
         this.windDirection = 1;  // 1 for right, -1 for left
@@ -15,7 +15,6 @@ class Player {
         this.gravity = 0.5;
         this.maxFallSpeed = 10;
         this.jumpCount = 0;
-        this.jumpCooldown = 0;
     }
 
     draw() {
@@ -27,7 +26,7 @@ class Player {
     update(obstacles) {
         this.applyWind();
         this.x += this.speedX;
-        if (this.movingUp && !this.collided && this.jumpCount < 2) {
+        if (this.movingUp && this.jumpCount < 2) {
             this.jump();
         }
         if (this.movingDown && !this.collision(this.x, this.y + 1, obstacles)) {
@@ -43,11 +42,11 @@ class Player {
     }
 
     jump() {
-        if (!this.collided && this.jumpCount < 2) {
-            this.speedY = -10;  // Set the jump speed
-            // Play the jump sound
-            if (jumpSound && jumpSound.isLoaded()) {
-                jumpSound.play();
+        if (this.collided && this.jumpCount < 2) { 
+            this.speedY = -10; // Jumping force
+            this.jumpCount++; // Increment jump count
+            if (this.jumpCount == 1) { // If it's the first jump
+                this.collided = false; // Player is now in the air
             }
         }
     }
@@ -76,6 +75,7 @@ class Player {
             }
             this.speedY = 0;
             this.collided = true;
+            this.jumpCount = 0;
         } else {
             this.collided = false;
         }
