@@ -89,16 +89,17 @@ class Player {
         }
     }
 
-    collision(x, y) {
+    collision(x, y, obstacles) {
         for (let obstacle of obstacles) {
-            if (x + 30 > obstacle.x && x < obstacle.x + 30 &&
-                y + 30 > obstacle.y && y < obstacle.y + 30) {
+            if (x + 30 > obstacle.x && x < obstacle.x + 30 && y + 30 > obstacle.y && y < obstacle.y + 30) {
                 return true;  // Collision detected if any part of the player overlaps with an obstacle
             }
         }
-        return x < 0 || x + 30 > width || y < 0 || y + 30 > height;  // Check for boundary collisions
+        if (y + 30 > height || y < 0 || x < 0 || x + 30 > width) {
+            return true;  // Boundary collision
+        }
+        return false;
     }
-
 
     setMovement(key, isPressing) {
         switch (key) {
