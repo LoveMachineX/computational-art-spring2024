@@ -6,6 +6,8 @@ let staticImage;
 let player = null;
 let squareGenerated = false;
 let gold;
+// let jumpSound;
+// let victory;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -50,6 +52,7 @@ function draw() {
 
 function preload() {
   victory = loadSound('https://lovemachinex.github.io/computational-art-spring2024/assignments/final/sound/victory.wav')
+  jumpSound = loadSound('https://lovemachinex.github.io/computational-art-spring2024/assignments/final/sound/drum.wav');
 }
 
 
