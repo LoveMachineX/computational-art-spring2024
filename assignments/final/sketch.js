@@ -39,6 +39,7 @@ function draw() {
     img.loadPixels();
     obstacles = [];
     processVideo();
+    gold.placeRandomly(obstacles, width, height);
     gold.draw();
   } else {
     image(staticImage, 0, 0, width, height);
@@ -96,7 +97,6 @@ function toggleFreeze() {
   freeze = !freeze;
   if (freeze) {
       staticImage = get();  // Capture the current canvas as the static image
-      gold.placeRandomly(obstacles, width, height); // Place gold square randomly on freeze
       if (!player.windChangeTimer) {
         player.windChangeTimer = 300;  // Start with 5 seconds after freeze
     }
