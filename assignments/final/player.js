@@ -25,10 +25,6 @@ class Player {
 
     update(obstacles) {
         this.applyWind();
-        if (this.collision(this.x, this.y, obstacles)) {
-            this.x -= this.speedX;  // Revert the movement if there's a collision
-            this.speedX = 0;  // Optionally stop the wind force on collision
-        }
         if (this.movingUp && this.jumpCount < 2) {
             this.jump();
         }
@@ -93,17 +89,16 @@ class Player {
         }
     }
 
-    collision(x, y, obstacles) {
+    collision(x, y) {
         for (let obstacle of obstacles) {
-            if (x + 30 > obstacle.x && x < obstacle.x + 30 && y + 30 > obstacle.y && y < obstacle.y + 30) {
+            if (x + 30 > obstacle.x && x < obstacle.x + 30 &&
+                y + 30 > obstacle.y && y < obstacle.y + 30) {
                 return true;  // Collision detected if any part of the player overlaps with an obstacle
             }
         }
-        if (y + 30 > height || y < 0 || x < 0 || x + 30 > width) {
-            return true;  // Boundary collision
-        }
-        return false;
+        return x < 0 || x + 30 > width || y < 0 || y + 30 > height;  // Check for boundary collisions
     }
+
 
     setMovement(key, isPressing) {
         switch (key) {
