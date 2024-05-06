@@ -70,16 +70,13 @@ class Player {
         this.y += this.speedY;
         this.speedY += this.gravity;
         if (this.collision(this.x, this.y, obstacles)) {
-            while (this.collision(this.x, this.y, obstacles)) {
-                this.y -= Math.sign(this.speedY); // Adjust to not overlap
-            }
+            this.y -= Math.sign(this.speedY) * Math.min(Math.abs(this.speedY), 1); // Prevent sinking into the ground
             this.speedY = 0;
-            this.collided = true;
-            this.jumpCount = 0;
+            this.collided = true; // Player has hit the ground
+            this.jumpCount = 0; // Reset jump count when player hits the ground
         } else {
             this.collided = false;
         }
-        this.speedY = Math.min(this.speedY, this.maxFallSpeed);
     }
 
     collision(x, y, obstacles) {
