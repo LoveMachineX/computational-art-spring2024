@@ -57,7 +57,7 @@ class Player {
             this.windForce = 0;  // Reset wind force to simulate gradual increase
             this.windChangeTimer = 900;  // Reset timer (15 seconds at 60 fps)
         } else {
-            this.windForce = min(this.windForce + 0.1, 10);  // Gradually increase force to a max
+            this.windForce = min(this.windForce + 1, 10);  // Gradually increase force to a max
             this.windChangeTimer--;
         }
         this.speedX = this.windForce * this.windDirection;
