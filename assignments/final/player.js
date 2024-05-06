@@ -3,7 +3,11 @@ class Player {
         this.x = x;
         this.y = y;
         this.speedY = 0; // Vertical speed
+        this.speedX = 0;
         this.collided = false; // Collision state
+        this.windForce = 0;
+        this.windDirection = 1;  // 1 for right, -1 for left
+        this.windChangeTimer = 0;
         this.movingUp = false;
         this.movingDown = false;
         this.movingLeft = false;
@@ -19,6 +23,9 @@ class Player {
     }
 
     update(obstacles) {
+        this.applyWind();
+        this.x += this.speedX;
+
         if (this.movingUp && !this.collided) {
             this.speedY = -10;
         }
@@ -44,7 +51,17 @@ class Player {
     //     }
     // }
 
-    
+    applyWind() {
+        if (this.windChangeTimer <= 0) {
+            this.windDirection *= -1;  // Change wind direction
+            this.windForce = 0;  // Reset wind force to simulate gradual increase
+            this.windChangeTimer = 900;  // Reset timer (15 seconds at 60 fps)
+        } else {
+            this.windForce = min(this.windForce + 0.01, 2);  // Gradually increase force to a max
+            this.windChangeTimer--;
+        }
+        this.speedX = this.windForce * this.windDirection;
+    }
 
 
     applyGravity(obstacles) {
