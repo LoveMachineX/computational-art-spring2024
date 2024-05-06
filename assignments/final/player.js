@@ -43,8 +43,12 @@ class Player {
     }
 
     jump() {
-        if (!this.collided) {
-            this.speedY = -15; // Adjust jump strength
+        if (!this.collided && this.jumpCount < 2) {
+            this.speedY = -10;  // Set the jump speed
+            // Play the jump sound
+            if (jumpSound && jumpSound.isLoaded()) {
+                jumpSound.play();
+            }
         }
     }
 
