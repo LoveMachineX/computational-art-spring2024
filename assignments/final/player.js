@@ -52,7 +52,7 @@ class Player {
         if (this.jumpCooldown > 0) {
             this.jumpCooldown--;
         } else {
-            this.jumpCount = 0;  
+            this.jumpCount = 0;  // Reset jump count after cooldown expires
         }
     }
 
@@ -62,7 +62,7 @@ class Player {
             this.windForce = 0;  // Reset wind force to simulate gradual increase
             this.windChangeTimer = 900;  // Reset timer (15 seconds at 60 fps)
         } else {
-            this.windForce = min(this.windForce + 0.01, 2);  // Gradually increase force to a max
+            this.windForce = min(this.windForce + 1, 10);  // Gradually increase force to a max
             this.windChangeTimer--;
         }
         this.speedX = this.windForce * this.windDirection;
@@ -73,11 +73,15 @@ class Player {
         this.y += this.speedY;
         this.speedY += this.gravity;
         if (this.collision(this.x, this.y, obstacles)) {
-            this.collided = true;
+            while (this.collision(this.x, this.y, obstacles)) {
+                this.y -= Math.sign(this.speedY); // Adjust to not overlap
+            }
             this.speedY = 0;
+            this.collided = true;
         } else {
             this.collided = false;
         }
+        this.speedY = Math.min(this.speedY, this.maxFallSpeed);
     }
 
     collision(x, y, obstacles) {
