@@ -14,6 +14,8 @@ class Player {
         this.movingRight = false;
         this.gravity = 0.5;
         this.maxFallSpeed = 10;
+        this.jumpCount = 0;
+        this.jumpCooldown = 0;
     }
 
     draw() {
@@ -23,9 +25,9 @@ class Player {
     }
 
     update(obstacles) {
-        // this.applyWind();
+        this.applyWind();
         this.x += this.speedX;
-
+        this.manageJumpCooldown();
         if (this.movingUp && !this.collided && this.jumpCount < 2) {
             this.jump();
         }
@@ -43,16 +45,18 @@ class Player {
     }
 
     jump() {
-        this.speedY = -10; 
-        this.jumpCount++;
-        this.jumpCooldown = 180;  
+        if (!this.collided) {
+            this.speedY = -10; // Adjust jump strength
+            this.jumpCount++;
+            this.jumpCooldown = 180; // Cooldown time to reset jump count, 3 seconds if 60 fps
+        }
     }
 
     manageJumpCooldown() {
         if (this.jumpCooldown > 0) {
             this.jumpCooldown--;
-        } else {
-            this.jumpCount = 0;  // Reset jump count after cooldown expires
+        } else if (this.jumpCount >= 2) {
+            this.jumpCount = 0; // Reset jumps allowed after cooldown expires
         }
     }
 
