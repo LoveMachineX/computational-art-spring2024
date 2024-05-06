@@ -44,7 +44,7 @@ class Player {
 
     jump() {
         if (!this.collided) {
-            this.speedY = -10; // Adjust jump strength
+            this.speedY = -15; // Adjust jump strength
         }
     }
 
