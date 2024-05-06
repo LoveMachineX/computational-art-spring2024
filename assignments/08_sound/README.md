@@ -12,7 +12,7 @@ Welcome to the "Found Treasure" game, a computational media project for the cour
 2. **Collision Detection**: Integrates with player movement to ensure that interactions with obstacles and boundaries are realistic and prevent the player from moving through objects.
 3. **Gravity Effects**: Tied closely to the player's jump functionality and collision detection, gravity impacts how the player returns to the ground after jumping.
 4. **Multimedia Interactions (Sound)**: Sounds are triggered by specific actions like jumping and winning, which adds an auditory layer to the visual and physical experience of the game.
-5. **Dynamic Obstacle Interaction**: The player interacts with a gold object, which can trigger victory music and affects the game's outcome, linking the player's location and actions directly to game progression.
+5. **Dynamic Obstacle Interaction**: Users design their own obstacles directly from the camera. The uncertainty of the low-resolution camera makes obstacles sometimes obstacles and sometimes paths to treasure.
 
 The most interesting effect is produced by the **Player Movement and Wind Force** connection. This aspect introduces a dynamic element that continuously challenges the player to adapt to changing conditions, enhancing the game's engagement and complexity.
 
