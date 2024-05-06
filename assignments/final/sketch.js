@@ -42,12 +42,13 @@ function draw() {
   } else {
     image(staticImage, 0, 0, width, height);
     gold.draw();
+    if (checkCollision()) {
+      playVictoryMusic();
+    }
   }
   player.update(obstacles);
   player.draw();
-  if (checkCollision()) {
-    playVictoryMusic();
-  }
+  
 }
 
 function preload() {
