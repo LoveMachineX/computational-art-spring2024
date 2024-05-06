@@ -48,6 +48,9 @@ class Player {
             if (this.jumpCount == 1) { // If it's the first jump
                 this.collided = false; // Player is now in the air
             }
+            if (jumpSound && jumpSound.isLoaded()) {
+                jumpSound.play();
+            }
         }
     }
 
