@@ -24,7 +24,7 @@ class Player {
     }
 
     update(obstacles) {
-        this.applyWind();
+        // this.applyWind();
         this.x += this.speedX;
         if (this.movingUp && this.jumpCount < 2) {
             this.jump();
