@@ -20,10 +20,7 @@ class Player {
 
     update(obstacles) {
         if (this.movingUp && !this.collided) {
-            this.y -= 10;  
-            if (jumpSound.isLoaded()) {
-                jumpSound.play();  
-            }
+            this.speedY = -10;
         }
         if (this.movingDown && !this.collision(this.x, this.y + 1, obstacles)) {
             this.y += 5;
@@ -38,7 +35,14 @@ class Player {
         this.applyGravity(obstacles);
     }
 
-
+    // jump() {
+    //     if (!this.collided) {
+    //         this.speedY = -10;  
+            // if (jumpSound.isLoaded()) {
+            //     jumpSound.play();  
+            // }
+    //     }
+    // }
 
     
 
